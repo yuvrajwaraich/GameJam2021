@@ -26,7 +26,9 @@ intensity = 1
 def newLevel():
     up, down, right, left = False, False, False, False
     
-    mobs.append(Mob(50, SCREEN_HEIGHT//2 - 32, 2 * intensity, 5 * intensity, 20))
+    mob = Mob(50, SCREEN_HEIGHT//2 - 32, 2 * intensity, 5 * intensity, 20)
+    mob.flip()
+    mobs.append(mob)
     mobs.append(Mob(SCREEN_WIDTH - 64 - 50, SCREEN_HEIGHT//2 - 32, 2 * intensity, 5 * intensity, 20))
 
     while True:

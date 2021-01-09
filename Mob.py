@@ -16,6 +16,10 @@ class Mob(pygame.sprite.Sprite):
         self.bulletSpeed = bulletSpd
         self.bulletDamage = bulletDmg
         self.alive = True
+        self.type = "villain"
+    
+    def flip(self):
+        self.image = pygame.image.load('flipped_mob.png')
 
     def lowerHealth(self, dmg):
         self.health -= dmg
