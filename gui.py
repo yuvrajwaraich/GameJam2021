@@ -36,6 +36,18 @@ def controls():
     pass
 
 
+def resetGame():
+    main_char.x = SCREEN_WIDTH//2 - 32
+    main_char.y = SCREEN_HEIGHT//2 - 32
+    main_char.health = 20
+    main_char.alive = True
+    global bullets, mobs, toDel, mobsToDel
+    bullets = set()
+    mobs = []
+    toDel = set()
+    mobsToDel = set()
+
+
 def options():
 
     running = True
@@ -55,7 +67,61 @@ def options():
 
 
 def goNextLevel():
-    pass
+    door = pygame.Rect(400, 518, 100, 44)
+    up, down, right, left = False, False, False, False
+    running = True
+    while running:
+        screen.blit(background, (0, 0))
+        screen.fill(BLACK, door)
+        screen.blit(main_char.image, (main_char.x, main_char.y))
+        main_char.displayHealth(screen)
+
+        main_char_rect = pygame.Rect(main_char.x, main_char.y, 64, 64)
+
+        if main_char_rect.colliderect(door):
+            resetGame()
+            return True
+
+        if right:
+            main_char.move(movementSpeed, 0)
+        if left:
+            main_char.move(-1 * movementSpeed, 0)
+        if up:
+            main_char.move(0, -1 * movementSpeed)
+        if down:
+            main_char.move(0, movementSpeed)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    up, down, right, left = False, False, False, False
+                    if not options():
+                        return False
+
+                if event.key in [pygame.K_RIGHT, pygame.K_d]:
+                    right = True
+                if event.key in [pygame.K_LEFT, pygame.K_a]:
+                    left = True
+                if event.key in [pygame.K_UP, pygame.K_w]:
+                    up = True
+                if event.key in [pygame.K_DOWN, pygame.K_s]:
+                    down = True
+
+            if event.type == pygame.KEYUP:
+                if event.key in [pygame.K_RIGHT, pygame.K_d]:
+                    right = False
+                if event.key in [pygame.K_LEFT, pygame.K_a]:
+                    left = False
+                if event.key in [pygame.K_UP, pygame.K_w]:
+                    up = False
+                if event.key in [pygame.K_DOWN, pygame.K_s]:
+                    down = False
+
+        clock.tick(60)
+        pygame.display.update()
 
 
 def deadScreen():
@@ -171,18 +237,6 @@ def newLevel():
             return False
 
 
-def reset():
-    main_char.x = SCREEN_WIDTH//2 - 32
-    main_char.y = SCREEN_HEIGHT//2 - 32
-    main_char.health = 20
-    main_char.alive = True
-    global bullets, mobs, toDel, mobsToDel
-    bullets = set()
-    mobs = []
-    toDel = set()
-    mobsToDel = set()
-
-
 def entryScreen():
     play_button = pygame.Rect(250, 106, 500, 150)
     controls_button = pygame.Rect(250, 306, 500, 150)
@@ -215,14 +269,12 @@ def entryScreen():
                         if newLevel():
                             if not goNextLevel():
                                 continueGame = False
-                            else:
-                                reset()
                         else:
                             alive = False
 
                     if not alive:
                         deadScreen()
-                    reset()
+                    resetGame()
                 elif controls_button.collidepoint((mX, mY)):
                     controls()
 
