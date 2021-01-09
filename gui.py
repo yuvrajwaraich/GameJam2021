@@ -49,10 +49,30 @@ def resetGame():
 
 
 def options():
-
+    resume_button = pygame.Rect(250, 101, 500, 100)
+    controls_button = pygame.Rect(250, 231, 500, 100)
+    main_menu_button = pygame.Rect(250, 361, 500, 100)
     running = True
     while running:
         screen.fill(BG_COLOUR)
+
+        screen.fill(BLACK, resume_button)
+        text = myfont.render("RESUME", True, WHITE)
+        fontSize = myfont.size("RESUME")
+        disp_coords = (resume_button.center[0] - fontSize[0]//2, resume_button.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
+
+        screen.fill(BLACK, controls_button)
+        text = myfont.render("CONTROLS", True, WHITE)
+        fontSize = myfont.size("CONTROLS")
+        disp_coords = (controls_button.center[0] - fontSize[0]//2, controls_button.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
+
+        screen.fill(BLACK, main_menu_button)
+        text = myfont.render("EXIT TO MAIN MENU", True, WHITE)
+        fontSize = myfont.size("EXIT TO MAIN MENU")
+        disp_coords = (main_menu_button.center[0] - fontSize[0]//2, main_menu_button.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -61,6 +81,15 @@ def options():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mX, mY = pygame.mouse.get_pos()
+                if resume_button.collidepoint((mX, mY)):
+                    return True
+                elif controls_button.collidepoint((mX, mY)):
+                    controls()
+                elif main_menu_button.collidepoint((mX, mY)):
+                    return False
 
         clock.tick(60)
         pygame.display.update()
@@ -203,7 +232,8 @@ def newLevel():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     up, down, right, left = False, False, False, False
-                    options()
+                    if not options():
+                        return "no more play"
                 if event.key in [pygame.K_RIGHT, pygame.K_d]:
                     right = True
                 if event.key in [pygame.K_LEFT, pygame.K_a]:
@@ -231,10 +261,10 @@ def newLevel():
         pygame.display.update()
 
         if len(mobs) == 0:
-            return True
+            return 'continue'
 
         if not main_char.alive:
-            return False
+            return 'dead'
 
 
 def entryScreen():
@@ -266,11 +296,14 @@ def entryScreen():
                     alive = True
                     continueGame = True
                     while alive and continueGame:
-                        if newLevel():
+                        result = newLevel()
+                        if result == 'continue':
                             if not goNextLevel():
                                 continueGame = False
-                        else:
+                        elif result == 'dead':
                             alive = False
+                        elif result == 'no more play':
+                            continueGame = False
 
                     if not alive:
                         deadScreen()
