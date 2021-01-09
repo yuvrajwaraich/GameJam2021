@@ -2,7 +2,7 @@ import pygame
 from sys import exit
 from MainChar import MainChar
 from Mob import Mob
-
+from random import  randint
 
 pygame.init()
 pygame.font.init()
@@ -52,12 +52,17 @@ def newLevel():
                     2 - 32, 2 * intensity, 5 * intensity, 20))
 
     running = True
+    currentTime = pygame.time.get_ticks()
     while running:
         screen.blit(background, (0, 0))
         screen.blit(main_char.image, (main_char.x, main_char.y))
 
         for mob in mobs:
             screen.blit(mob.image, (mob.x, mob.y))
+
+            if pygame.time.get_ticks()-currentTime > randint(200,800) :
+                bullets.add(mob.shoot(main_char.x+32,main_char.y+32))
+                currentTime = pygame.time.get_ticks()
             
         toDel = []
         mobsToDel = []

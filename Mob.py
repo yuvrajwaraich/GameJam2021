@@ -1,5 +1,6 @@
 import pygame
 import math
+from random import random
 from Bullet import Bullet
 
 
@@ -28,6 +29,9 @@ class Mob():
     def shoot(self, x, y):
         xChange = x-self.x-32
         yChange = y-self.y-32
+
+        xChange*=(50+random()) / 50
+        yChange*=(50+random()) / 50
         size = xChange*xChange + yChange*yChange
         xChange /= math.sqrt(size)
         yChange /= math.sqrt(size)
