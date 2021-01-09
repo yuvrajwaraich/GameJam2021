@@ -21,13 +21,13 @@ main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
 movementSpeed = 5
 
 
-
 def main():
     up, down, right, left = False, False, False, False
 
     while True:
         screen.blit(background, (0, 0))
         screen.blit(main_char.image, (main_char.x, main_char.y))
+
         if right:
             main_char.move(movementSpeed, 0)
         if left:
@@ -36,7 +36,6 @@ def main():
             main_char.move(0, -1 * movementSpeed)
         if down:
             main_char.move(0, movementSpeed)
-        
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -50,6 +49,7 @@ def main():
                     up = True
                 if event.key in [pygame.K_DOWN, pygame.K_s]:
                     down = True
+
             if event.type == pygame.KEYUP:
                 if event.key in [pygame.K_RIGHT, pygame.K_d]:
                     right = False
