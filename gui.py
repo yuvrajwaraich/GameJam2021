@@ -24,6 +24,8 @@ main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
 movementSpeed = 5
 intensity = 1
 
+def controls():
+    pass
 
 def options():
     BG_COLOUR = (168, 74, 50)
@@ -43,6 +45,10 @@ def options():
         pygame.display.update()
 
 
+def deadScreen():
+    pass
+
+
 def newLevel():
     up, down, right, left = False, False, False, False
 
@@ -60,7 +66,6 @@ def newLevel():
         main_char.displayHealth(screen)
         for mob in mobs:
             screen.blit(mob.image, (mob.x, mob.y))
-            mob.displayHealth(screen)
 
             if pygame.time.get_ticks()-currentTime > randint(200,800) :
                 bullets.add(mob.shoot(main_char.x+32,main_char.y+32))
@@ -160,6 +165,15 @@ def entryScreen():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mX, mY = pygame.mouse.get_pos()
+                if play_button.collidepoint((mX, mY)):
+                    newLevel()
+                    deadScreen()
+                elif controls_button.collidepoint((mX, mY)):
+                    controls()
+            
                 
 
         clock.tick(60)
