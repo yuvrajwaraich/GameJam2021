@@ -24,16 +24,11 @@ class Bullet():
     def draw(self):
         from gui import screen
 
-        screen.blit(self.circle, (self.x, self.y))
+        circle = pygame.Surface((60, 60), pygame.SRCALPHA)
+        pygame.draw.circle(screen, self.colour, (self.x, self.y), self.radius)
+        screen.blit(circle, (self.x, self.y))
         self.x += self.xChange
         self.y += self.yChange
 
     def collide(self, char):
-        rect = char.image.get_rect()
-        rect.x = char.x
-        rect.y = char.y
-
-        if self.circle.colliderect(rect):
-            return True
-        else:
-            return False
+        return (self.x > char.x and self.x < char.x + char.width) and (self.y > char.y and self.y < char.y + char.height)

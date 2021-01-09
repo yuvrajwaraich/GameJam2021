@@ -11,7 +11,6 @@ class Mob():
         self.width = self.image.get_width()
         self.height = self.image.get_height()
         self.health = health
-        self.bullets = []
         self.bulletSpeed = bulletSpd
         self.bulletDamage = bulletDmg
         self.alive = True
@@ -27,7 +26,9 @@ class Mob():
             self.alive = False
 
     def shoot(self, x, y):
-        angle = math.radians(math.tan((x-self.x)/(y-self.y)))
-        xChange = self.bulletSpeed*math.cos(angle)
-        yChange = self.bulletSpeed*math.sin(angle)
-        self.bullets.append(Bullet(xChange, yChange, self.bulletDamage, self))
+        xChange = x-self.x-32
+        yChange = y-self.y-32
+        size = xChange*xChange + yChange*yChange
+        xChange /= math.sqrt(size)
+        yChange /= math.sqrt(size)
+        return Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed, self.bulletDamage, self)

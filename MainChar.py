@@ -11,7 +11,6 @@ class MainChar():
         self.width = self.image.get_width()
         self.height = self.image.get_height()
         self.health = 20
-        self.bullets = []
         self.bulletSpeed = 5
         self.bulletDmg = 10
         self.alive = True
@@ -37,7 +36,9 @@ class MainChar():
             self.y = SCREEN_HEIGHT-self.height
 
     def shoot(self, x, y):
-        angle = math.radians(math.tan((x-self.x)/(y-self.y)))
-        xChange = self.bulletSpeed*math.cos(angle)
-        yChange = self.bulletSpeed*math.sin(angle)
-        self.bullets.append(Bullet(xChange, yChange, self.bulletDmg, self))
+        xChange = x-self.x-32
+        yChange = y-self.y-32
+        size = xChange*xChange + yChange*yChange
+        xChange /= math.sqrt(size)
+        yChange /= math.sqrt(size)
+        return Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed, self.bulletDmg, self)

@@ -17,6 +17,7 @@ myfont = pygame.font.SysFont('Comic Sans MS', 30)
 clock = pygame.time.Clock()
 
 mobs = []
+bullets= set()
 main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
 
 movementSpeed = 5
@@ -57,6 +58,28 @@ def newLevel():
 
         for mob in mobs:
             screen.blit(mob.image, (mob.x, mob.y))
+            
+        toDel = []
+        mobsToDel = []
+        for bullet in bullets:
+            if(bullet.x < 0 or bullet.x > SCREEN_WIDTH or bullet.y < 0 or bullet.y > SCREEN_HEIGHT):
+                toDel.append(bullet)
+            elif(bullet.character.charType == 'villian' and bullet.collide(main_char)):
+                toDel.append(bullet)
+            else:
+                bullet.draw()
+            for mob in mobs:
+                if(bullet.character.charType == 'hero' and bullet.collide(mob)):
+                    toDel.append(bullet)
+                    mob.lowerHealth(main_char.bulletDmg)
+                    if(mob.alive == False):
+                        mobsToDel.append(mob)
+
+
+        for bullet in toDel:
+            bullets.remove(bullet)
+        for mob in mobsToDel:
+            mobs.remove(mob)
 
         if right:
             main_char.move(movementSpeed, 0)
@@ -93,6 +116,10 @@ def newLevel():
                     up = False
                 if event.key in [pygame.K_DOWN, pygame.K_s]:
                     down = False
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouseX,mouseY =  pygame.mouse.get_pos()
+                bullets.add(main_char.shoot(mouseX,mouseY))
 
         clock.tick(60)
         pygame.display.update()
