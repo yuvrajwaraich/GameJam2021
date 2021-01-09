@@ -1,9 +1,11 @@
 import pygame
-from gui import screen
+
 
 
 class Bullet():
     def __init__(self, xChange, yChange, dmg, character):
+        from gui import screen
+
         if character.type == 'hero':
             self.colour = (0, 0, 255)
         else:
@@ -20,6 +22,8 @@ class Bullet():
         self.character = character
 
     def draw(self):
+        from gui import screen
+        
         screen.blit(self.circle, (self.x, self.y))
         self.x += self.xChange
         self.y += self.yChange

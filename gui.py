@@ -1,12 +1,11 @@
 import pygame
 from sys import exit
+from MainChar import MainChar
 
 pygame.init()
 pygame.font.init()
 
 background = pygame.image.load('room.png')
-main_char = pygame.image.load('main_char.png')
-mob = pygame.image.load('mob.png')
 
 SCREEN_WIDTH = background.get_width()
 SCREEN_HEIGHT = background.get_height()
@@ -16,25 +15,27 @@ myfont = pygame.font.SysFont('Comic Sans MS', 30)
 notefont = pygame.font.SysFont('Comic Sans MS', 20)
 clock = pygame.time.Clock()
 
+mobs = []
+main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
+
+movementSpeed = 5
 
 
 
 def main():
-    mainX = 20
-    mainY = 50
     up, down, right, left = False, False, False, False
 
     while True:
         screen.blit(background, (0, 0))
-        screen.blit(main_char, (mainX, mainY))
+        screen.blit(main_char.image, (main_char.x, main_char.y))
         if right:
-            mainX += 5
+            main_char.move(movementSpeed, 0)
         if left:
-            mainX -= 5
+            main_char.move(-1 * movementSpeed, 0)
         if up:
-            mainY -= 5
+            main_char.move(0, -1 * movementSpeed)
         if down:
-            mainY += 5
+            main_char.move(0, movementSpeed)
         
 
         for event in pygame.event.get():

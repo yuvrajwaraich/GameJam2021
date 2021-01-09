@@ -1,18 +1,18 @@
 import pygame
 import math
 from Bullet import Bullet
-from gui import SCREEN_WIDTH, SCREEN_HEIGHT
+
 
 
 class MainChar(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, health):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('main_char.png')
         self.x = x
         self.y = y
         self.width = self.image.get_width()
         self.height = self.image.get_height()
-        self.health = health
+        self.health = 20
         self.bullets = []
         self.bulletSpeed = 5
         self.alive = True
@@ -24,6 +24,7 @@ class MainChar(pygame.sprite.Sprite):
             self.alive = False
 
     def move(self, x, y):
+        from gui import SCREEN_WIDTH, SCREEN_HEIGHT
         self.x += x
         self.y += y
         if x < 0:
