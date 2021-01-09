@@ -187,6 +187,9 @@ def deadScreen():
                 if event.key == pygame.K_ESCAPE:
                     running = False
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                running = False
+
         pygame.display.update()
 
 
