@@ -93,12 +93,14 @@ def newLevel():
                 bullets.add(mob.shoot(main_char.x+32, main_char.y+32))
                 currentTime = pygame.time.get_ticks()
 
+
+        toDel, mobsToDel = set(), set()
         for bullet in bullets:
             if(bullet.x < 0 or bullet.x > SCREEN_WIDTH or bullet.y < 0 or bullet.y > SCREEN_HEIGHT):
                 toDel.add(bullet)
             elif(bullet.character.charType == 'villain' and bullet.collide(main_char)):
                 if main_char.alive:
-                    main_char.health -= 1
+                    main_char.lowerHealth(1)
                 toDel.add(bullet)
             else:
                 bullet.draw()
