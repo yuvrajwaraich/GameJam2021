@@ -3,9 +3,8 @@ import math
 from Bullet import Bullet
 
 
-class Mob(pygame.sprite.Sprite):
+class Mob():
     def __init__(self, x, y, bulletSpd, bulletDmg, health):
-        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('mob.png')
         self.x = x
         self.y = y
@@ -16,7 +15,7 @@ class Mob(pygame.sprite.Sprite):
         self.bulletSpeed = bulletSpd
         self.bulletDamage = bulletDmg
         self.alive = True
-        self.type = "villain"
+        self.charType = "villain"
     
     def flip(self):
         self.image = pygame.image.load('flipped_mob.png')

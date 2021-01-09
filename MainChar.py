@@ -3,9 +3,8 @@ import math
 from Bullet import Bullet
 
 
-class MainChar(pygame.sprite.Sprite):
+class MainChar():
     def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('main_char.png')
         self.x = x
         self.y = y
@@ -16,7 +15,7 @@ class MainChar(pygame.sprite.Sprite):
         self.bulletSpeed = 5
         self.bulletDmg = 10
         self.alive = True
-        self.type == "hero"
+        self.charType = "hero"
 
     def lowerHealth(self, dmg):
         self.health -= dmg
