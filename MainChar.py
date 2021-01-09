@@ -27,14 +27,14 @@ class MainChar():
         from gui import SCREEN_WIDTH, SCREEN_HEIGHT
         self.x += x
         self.y += y
-        if x < 0:
-            x = 0
-        if x > SCREEN_WIDTH:
-            x = SCREEN_WIDTH
-        if y < 0:
-            y = 0
-        if y > SCREEN_HEIGHT:
-            y = SCREEN_HEIGHT
+        if self.x < 0:
+            self.x = 0
+        if self.x > SCREEN_WIDTH-self.width:
+            self.x = SCREEN_WIDTH-self.width
+        if self.y < 0:
+            self.y = 0
+        if self.y > SCREEN_HEIGHT-self.height:
+            self.y = SCREEN_HEIGHT-self.height
 
     def shoot(self, x, y):
         angle = math.radians(math.tan((x-self.x)/(y-self.y)))
