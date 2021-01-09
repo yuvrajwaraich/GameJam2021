@@ -1,5 +1,5 @@
 import pygame
-from Main import screen
+from gui import screen
 
 
 class Bullet():
