@@ -7,7 +7,7 @@ from Main import SCREEN_WIDTH, SCREEN_HEIGHT
 class MainChar(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, health):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('profile.jpg')
+        self.image = pygame.image.load('main_char.png')
         self.x = x
         self.y = y
         self.width = self.image.get_width()
@@ -15,11 +15,13 @@ class MainChar(pygame.sprite.Sprite):
         self.health = health
         self.bullets = []
         self.bulletSpeed = 5
+        self.alive = True
 
     def lowerHealth(self, dmg):
         self.health -= dmg
-        if self.health < 0:
+        if self.health <= 0:
             self.health = 0
+            self.alive = False
 
     def move(self, x, y):
         self.x += x
