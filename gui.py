@@ -53,6 +53,8 @@ def options():
         clock.tick(60)
         pygame.display.update()
 
+def winScreen():
+    pass
 
 def deadScreen():
     running = True
@@ -163,10 +165,10 @@ def newLevel():
         pygame.display.update()
 
         if len(mobs) == 0:
-            running = False
+            return True
 
         if not main_char.alive:
-            running = False
+            return False
 
 
 def reset():
@@ -205,8 +207,10 @@ def entryScreen():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mX, mY = pygame.mouse.get_pos()
                 if play_button.collidepoint((mX, mY)):
-                    newLevel()
-                    deadScreen()
+                    if newLevel():
+                        winScreen()
+                    else:
+                        deadScreen()
                     reset()
                 elif controls_button.collidepoint((mX, mY)):
                     controls()
