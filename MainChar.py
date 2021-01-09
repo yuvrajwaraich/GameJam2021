@@ -1,7 +1,7 @@
 import pygame
 import math
 from Bullet import Bullet
-from Main import SCREEN_WIDTH, SCREEN_HEIGHT
+from gui import SCREEN_WIDTH, SCREEN_HEIGHT
 
 
 class MainChar(pygame.sprite.Sprite):
