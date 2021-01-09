@@ -2,7 +2,8 @@ import pygame
 from sys import exit
 from MainChar import MainChar
 from Mob import Mob
-from random import  randint
+from random import randint
+
 
 pygame.init()
 pygame.font.init()
@@ -17,7 +18,7 @@ myfont = pygame.font.SysFont('Comic Sans MS', 30)
 clock = pygame.time.Clock()
 
 mobs = []
-bullets= set()
+bullets = set()
 main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
 
 movementSpeed = 5
@@ -33,7 +34,7 @@ def options():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
-                
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
@@ -56,20 +57,22 @@ def newLevel():
     while running:
         screen.blit(background, (0, 0))
         screen.blit(main_char.image, (main_char.x, main_char.y))
-
+        main_char.displayHealth(screen)
         for mob in mobs:
             screen.blit(mob.image, (mob.x, mob.y))
 
             if pygame.time.get_ticks()-currentTime > randint(200,800) :
                 bullets.add(mob.shoot(main_char.x+32,main_char.y+32))
                 currentTime = pygame.time.get_ticks()
-            
+
         toDel = []
         mobsToDel = []
         for bullet in bullets:
             if(bullet.x < 0 or bullet.x > SCREEN_WIDTH or bullet.y < 0 or bullet.y > SCREEN_HEIGHT):
                 toDel.append(bullet)
-            elif(bullet.character.charType == 'villian' and bullet.collide(main_char)):
+            elif(bullet.character.charType == 'villain' and bullet.collide(main_char)):
+                if main_char.alive:
+                    main_char.health -= 1
                 toDel.append(bullet)
             else:
                 bullet.draw()
@@ -79,7 +82,6 @@ def newLevel():
                     mob.lowerHealth(main_char.bulletDmg)
                     if(mob.alive == False):
                         mobsToDel.append(mob)
-
 
         for bullet in toDel:
             bullets.remove(bullet)
@@ -123,8 +125,8 @@ def newLevel():
                     down = False
 
             if event.type == pygame.MOUSEBUTTONUP:
-                mouseX,mouseY =  pygame.mouse.get_pos()
-                bullets.add(main_char.shoot(mouseX,mouseY))
+                mouseX, mouseY = pygame.mouse.get_pos()
+                bullets.add(main_char.shoot(mouseX, mouseY))
 
         clock.tick(60)
         pygame.display.update()
