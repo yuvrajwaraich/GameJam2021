@@ -25,8 +25,8 @@ BG_COLOUR = (168, 74, 50)
 mobs = []
 bullets = set()
 main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
-toDel = []
-mobsToDel = []
+toDel = set()
+mobsToDel = set()
 
 movementSpeed = 5
 intensity = 1
@@ -95,19 +95,19 @@ def newLevel():
 
         for bullet in bullets:
             if(bullet.x < 0 or bullet.x > SCREEN_WIDTH or bullet.y < 0 or bullet.y > SCREEN_HEIGHT):
-                toDel.append(bullet)
+                toDel.add(bullet)
             elif(bullet.character.charType == 'villain' and bullet.collide(main_char)):
                 if main_char.alive:
-                    main_char.lowerHealth(1)
-                toDel.append(bullet)
+                    main_char.health -= 1
+                toDel.add(bullet)
             else:
                 bullet.draw()
             for mob in mobs:
                 if(bullet.character.charType == 'hero' and bullet.collide(mob)):
-                    toDel.append(bullet)
+                    toDel.add(bullet)
                     mob.lowerHealth(main_char.bulletDmg)
                     if(mob.alive == False):
-                        mobsToDel.append(mob)
+                        mobsToDel.add(mob)
 
         for bullet in toDel:
             bullets.remove(bullet)
@@ -170,8 +170,8 @@ def reset():
     global bullets, mobs, toDel, mobsToDel
     bullets = set()
     mobs = []
-    toDel = []
-    mobsToDel = []
+    toDel = set()
+    mobsToDel = set()
 
 
 def entryScreen():
