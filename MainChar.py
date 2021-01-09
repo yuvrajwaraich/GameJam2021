@@ -3,7 +3,6 @@ import math
 from Bullet import Bullet
 
 
-
 class MainChar(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -15,6 +14,7 @@ class MainChar(pygame.sprite.Sprite):
         self.health = 20
         self.bullets = []
         self.bulletSpeed = 5
+        self.bulletDmg = 10
         self.alive = True
 
     def lowerHealth(self, dmg):
@@ -40,4 +40,4 @@ class MainChar(pygame.sprite.Sprite):
         angle = math.radians(math.tan((x-self.x)/(y-self.y)))
         xChange = self.bulletSpeed*math.cos(angle)
         yChange = self.bulletSpeed*math.sin(angle)
-        self.bullets.append(Bullet(xChange, yChange, 10, self))
+        self.bullets.append(Bullet(xChange, yChange, self.bulletDmg, self))

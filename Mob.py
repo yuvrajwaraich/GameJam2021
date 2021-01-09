@@ -4,7 +4,7 @@ from Bullet import Bullet
 
 
 class Mob(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, health):
+    def __init__(self, x, y, bulletSpd, bulletDmg, health):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('mob.png')
         self.x = x
@@ -13,7 +13,8 @@ class Mob(pygame.sprite.Sprite):
         self.height = self.image.get_height()
         self.health = health
         self.bullets = []
-        self.bulletDamage = 5
+        self.bulletSpeed = bulletSpd
+        self.bulletDamage = bulletDmg
         self.alive = True
 
     def lowerHealth(self, dmg):
