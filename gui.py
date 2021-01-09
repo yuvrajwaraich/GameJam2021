@@ -53,8 +53,10 @@ def options():
         clock.tick(60)
         pygame.display.update()
 
-def winScreen():
+
+def goNextLevel():
     pass
+
 
 def deadScreen():
     running = True
@@ -96,8 +98,6 @@ def newLevel():
                 currentTime = pygame.time.get_ticks()
             if pygame.time.get_ticks()-currentTime > randint(50, 200):
                 mob.move(main_char.x+32, main_char.y+32)
-                
-
 
         toDel, mobsToDel = set(), set()
         for bullet in bullets:
@@ -173,7 +173,7 @@ def newLevel():
 
 def reset():
     main_char.x = SCREEN_WIDTH//2 - 32
-    main_char.y =SCREEN_HEIGHT//2 - 32
+    main_char.y = SCREEN_HEIGHT//2 - 32
     main_char.health = 20
     main_char.alive = True
     global bullets, mobs, toDel, mobsToDel
@@ -209,9 +209,18 @@ def entryScreen():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mX, mY = pygame.mouse.get_pos()
                 if play_button.collidepoint((mX, mY)):
-                    if newLevel():
-                        winScreen()
-                    else:
+                    alive = True
+                    continueGame = True
+                    while alive and continueGame:
+                        if newLevel():
+                            if not goNextLevel():
+                                continueGame = False
+                            else:
+                                reset()
+                        else:
+                            alive = False
+
+                    if not alive:
                         deadScreen()
                     reset()
                 elif controls_button.collidepoint((mX, mY)):
