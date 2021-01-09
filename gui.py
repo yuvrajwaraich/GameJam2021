@@ -9,6 +9,7 @@ pygame.init()
 pygame.font.init()
 
 background = pygame.image.load('room.png')
+dead_screen = pygame.image.load('dead_screen.png')
 
 SCREEN_WIDTH = background.get_width()
 SCREEN_HEIGHT = background.get_height()
@@ -17,6 +18,10 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 myfont = pygame.font.SysFont('Comic Sans MS', 30)
 clock = pygame.time.Clock()
 
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+BG_COLOUR = (168, 74, 50)
+
 mobs = []
 bullets = set()
 main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
@@ -24,11 +29,13 @@ main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
 movementSpeed = 5
 intensity = 1
 
+
 def controls():
     pass
 
+
 def options():
-    BG_COLOUR = (168, 74, 50)
+
     running = True
     while running:
         screen.fill(BG_COLOUR)
@@ -48,7 +55,6 @@ def options():
 def deadScreen():
     pass
 
-
 def newLevel():
     up, down, right, left = False, False, False, False
 
@@ -67,8 +73,8 @@ def newLevel():
         for mob in mobs:
             screen.blit(mob.image, (mob.x, mob.y))
 
-            if pygame.time.get_ticks()-currentTime > randint(200,800) :
-                bullets.add(mob.shoot(main_char.x+32,main_char.y+32))
+            if pygame.time.get_ticks()-currentTime > randint(200, 800):
+                bullets.add(mob.shoot(main_char.x+32, main_char.y+32))
                 currentTime = pygame.time.get_ticks()
 
         toDel = []
@@ -140,12 +146,8 @@ def newLevel():
         if len(mobs) == 0:
             running = False
 
+
 def entryScreen():
-    BG_COLOUR = (168, 74, 50)
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
-
-
     play_button = pygame.Rect(250, 106, 500, 150)
     controls_button = pygame.Rect(250, 306, 500, 150)
     running = True
@@ -154,18 +156,20 @@ def entryScreen():
 
         screen.fill(BLACK, play_button)
         text = myfont.render("PLAY", True, WHITE)
-        disp_coords = (play_button.center[0] - myfont.size("PLAY")[0]//2, play_button.center[1] - myfont.size("PLAY")[1]//2)
+        disp_coords = (play_button.center[0] - myfont.size("PLAY")
+                       [0]//2, play_button.center[1] - myfont.size("PLAY")[1]//2)
         screen.blit(text, disp_coords)
 
         screen.fill(BLACK, controls_button)
         text = myfont.render("CONTROLS", True, WHITE)
-        disp_coords = (controls_button.center[0] - myfont.size("CONTROLS")[0]//2, controls_button.center[1] - myfont.size("CONTROLS")[1]//2)
+        disp_coords = (controls_button.center[0] - myfont.size("CONTROLS")[
+                       0]//2, controls_button.center[1] - myfont.size("CONTROLS")[1]//2)
         screen.blit(text, disp_coords)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
-            
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mX, mY = pygame.mouse.get_pos()
                 if play_button.collidepoint((mX, mY)):
@@ -173,11 +177,10 @@ def entryScreen():
                     deadScreen()
                 elif controls_button.collidepoint((mX, mY)):
                     controls()
-            
-                
 
         clock.tick(60)
         pygame.display.update()
+
 
 def main():
     entryScreen()
