@@ -27,8 +27,8 @@ class Bullet():
         circle = pygame.Surface((60, 60), pygame.SRCALPHA)
         pygame.draw.circle(screen, self.colour, (int(self.x), int(self.y)), self.radius)
         screen.blit(circle, (self.x, self.y))
-        self.x += self.xChange
-        self.y += self.yChange
+        self.x += self.xChange*2
+        self.y += self.yChange*2
 
     def collide(self, char):
         return (self.x > char.x and self.x < char.x + char.width) and (self.y > char.y and self.y < char.y + char.height)

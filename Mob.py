@@ -18,9 +18,15 @@ class Mob():
         self.bulletDamage = bulletDmg
         self.alive = True
         self.charType = "villain"
+        self.dir="Left"
     
     def flip(self):
-        self.image = pygame.image.load('flipped_mob.png')
+        if self.dir == "Right" :
+            self.image = pygame.image.load('flipped_mob.png')
+            
+        if self.dir == "Left" :
+            self.image = pygame.image.load('mob.png')
+           
 
     def displayHealth(self, screen):
         if self.health <= 0:
@@ -49,7 +55,11 @@ class Mob():
     def move (self,x,y) :
         xChange = x-self.x-32
         yChange = y-self.y-32
-
+        if xChange<0 :
+            self.dir = "Left"
+        else :
+            self.dir= "Right"
+        self.flip()
         xChange*=(0.2+random()) / 0.2
         yChange*=(0.2+random()) / 0.2
         size = xChange*xChange + yChange*yChange
