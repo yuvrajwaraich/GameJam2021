@@ -15,7 +15,6 @@ class MainChar(pygame.sprite.Sprite):
         self.health = health
         self.bullets = []
         self.bulletSpeed = 5
-        print(1)
 
     def lowerHealth(self, dmg):
         self.health -= dmg
