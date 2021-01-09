@@ -24,7 +24,7 @@ BG_COLOUR = (168, 74, 50)
 
 mobs = []
 bullets = set()
-main_char = MainChar(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
+main_char = MainChar(SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT//2 - 32)
 toDel = set()
 mobsToDel = set()
 
@@ -172,6 +172,8 @@ def newLevel():
 
 
 def reset():
+    main_char.x = SCREEN_WIDTH//2 - 32
+    main_char.y =SCREEN_HEIGHT//2 - 32
     main_char.health = 20
     main_char.alive = True
     global bullets, mobs, toDel, mobsToDel
