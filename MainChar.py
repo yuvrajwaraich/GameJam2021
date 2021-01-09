@@ -38,12 +38,12 @@ class MainChar():
         self.y += y
         if self.x < 0:
             self.x = 0
-        if self.x > SCREEN_WIDTH-self.width:
-            self.x = SCREEN_WIDTH-self.width
-        if self.y < 0:
-            self.y = 0
-        if self.y > SCREEN_HEIGHT-self.height:
-            self.y = SCREEN_HEIGHT-self.height
+        if self.x > SCREEN_WIDTH-self.width-15:
+            self.x = SCREEN_WIDTH-self.width-15
+        if self.y < 42:
+            self.y = 42
+        if self.y > SCREEN_HEIGHT-self.height-42:
+            self.y = SCREEN_HEIGHT-self.height-42
 
     def shoot(self, x, y):
         xChange = x-self.x-32
