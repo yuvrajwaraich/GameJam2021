@@ -1,7 +1,6 @@
 import pygame
 
 
-
 class Bullet():
     def __init__(self, xChange, yChange, dmg, character):
         from gui import screen
@@ -25,7 +24,8 @@ class Bullet():
         from gui import screen
 
         circle = pygame.Surface((60, 60), pygame.SRCALPHA)
-        pygame.draw.circle(screen, self.colour, (int(self.x), int(self.y)), self.radius)
+        pygame.draw.circle(screen, self.colour,
+                           (int(self.x), int(self.y)), self.radius)
         screen.blit(circle, (self.x, self.y))
         self.x += self.xChange*2
         self.y += self.yChange*2
