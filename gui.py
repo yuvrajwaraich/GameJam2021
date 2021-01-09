@@ -64,8 +64,6 @@ def newLevel():
             if pygame.time.get_ticks()-currentTime > randint(200,800) :
                 bullets.add(mob.shoot(main_char.x+32,main_char.y+32))
                 currentTime = pygame.time.get_ticks()
-            if pygame.time.get_ticks()-currentTime > randint(100,200) :
-                mob.move(main_char.x+32,main_char.y+32)
 
         toDel = []
         mobsToDel = []
@@ -136,9 +134,38 @@ def newLevel():
         if len(mobs) == 0:
             running = False
 
+def entryScreen():
+    BG_COLOUR = (168, 74, 50)
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+
+
+    play_button = pygame.Rect(250, 106, 500, 150)
+    controls_button = pygame.Rect(250, 306, 500, 150)
+    running = True
+    while running:
+        screen.fill(BG_COLOUR)
+
+        screen.fill(BLACK, play_button)
+        text = myfont.render("PLAY", True, WHITE)
+        disp_coords = (play_button.center[0] - myfont.size("PLAY")[0]//2, play_button.center[1] - myfont.size("PLAY")[1]//2)
+        screen.blit(text, disp_coords)
+
+        screen.fill(BLACK, controls_button)
+        text = myfont.render("CONTROLS", True, WHITE)
+        disp_coords = (controls_button.center[0] - myfont.size("CONTROLS")[0]//2, controls_button.center[1] - myfont.size("CONTROLS")[1]//2)
+        screen.blit(text, disp_coords)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+                
+
+        clock.tick(60)
+        pygame.display.update()
 
 def main():
-    newLevel()
+    entryScreen()
 
 
 if __name__ == '__main__':
