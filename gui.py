@@ -59,19 +59,22 @@ def options():
         screen.fill(BLACK, resume_button)
         text = myfont.render("RESUME", True, WHITE)
         fontSize = myfont.size("RESUME")
-        disp_coords = (resume_button.center[0] - fontSize[0]//2, resume_button.center[1] - fontSize[1]//2)
+        disp_coords = (
+            resume_button.center[0] - fontSize[0]//2, resume_button.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
 
         screen.fill(BLACK, controls_button)
         text = myfont.render("CONTROLS", True, WHITE)
         fontSize = myfont.size("CONTROLS")
-        disp_coords = (controls_button.center[0] - fontSize[0]//2, controls_button.center[1] - fontSize[1]//2)
+        disp_coords = (
+            controls_button.center[0] - fontSize[0]//2, controls_button.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
 
         screen.fill(BLACK, main_menu_button)
         text = myfont.render("EXIT TO MAIN MENU", True, WHITE)
         fontSize = myfont.size("EXIT TO MAIN MENU")
-        disp_coords = (main_menu_button.center[0] - fontSize[0]//2, main_menu_button.center[1] - fontSize[1]//2)
+        disp_coords = (
+            main_menu_button.center[0] - fontSize[0]//2, main_menu_button.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
 
         for event in pygame.event.get():
@@ -81,7 +84,7 @@ def options():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-            
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mX, mY = pygame.mouse.get_pos()
                 if resume_button.collidepoint((mX, mY)):
@@ -96,20 +99,38 @@ def options():
 
 
 def goNextLevel():
-    door = pygame.Rect(400, 518, 100, 44)
+    nextLevelDoor = pygame.Rect(400, 518, 200, 44)
+    mainMenuDoor = pygame.Rect(400, 0, 200, 44)
     up, down, right, left = False, False, False, False
     running = True
     while running:
         screen.blit(background, (0, 0))
-        screen.fill(BLACK, door)
+
+        screen.fill(BLACK, nextLevelDoor)
+        text = myfont.render("Next Level", True, WHITE)
+        fontSize = myfont.size("Next Level")
+        disp_coords = (
+            nextLevelDoor.center[0] - fontSize[0]//2, nextLevelDoor.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
+
+        screen.fill(BLACK, mainMenuDoor)
+        text = myfont.render("Main Menu", True, WHITE)
+        fontSize = myfont.size("Main Menu")
+        disp_coords = (
+            mainMenuDoor.center[0] - fontSize[0]//2, mainMenuDoor.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
+
         screen.blit(main_char.image, (main_char.x, main_char.y))
         main_char.displayHealth(screen)
 
         main_char_rect = pygame.Rect(main_char.x, main_char.y, 64, 64)
 
-        if main_char_rect.colliderect(door):
+        if main_char_rect.colliderect(nextLevelDoor):
             resetGame()
             return True
+
+        if main_char_rect.colliderect(mainMenuDoor):
+            return False
 
         if right:
             main_char.move(movementSpeed, 0)
