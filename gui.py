@@ -73,6 +73,7 @@ def newLevel():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    up, down, right, left = False, False, False, False
                     options()
                 if event.key in [pygame.K_RIGHT, pygame.K_d]:
                     right = True
