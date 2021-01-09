@@ -92,6 +92,9 @@ def newLevel():
             if pygame.time.get_ticks()-currentTime > randint(200, 800):
                 bullets.add(mob.shoot(main_char.x+32, main_char.y+32))
                 currentTime = pygame.time.get_ticks()
+            if pygame.time.get_ticks()-currentTime > randint(50, 200):
+                mob.move(main_char.x+32, main_char.y+32)
+                
 
 
         toDel, mobsToDel = set(), set()
