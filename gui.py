@@ -60,6 +60,7 @@ def newLevel():
         main_char.displayHealth(screen)
         for mob in mobs:
             screen.blit(mob.image, (mob.x, mob.y))
+            mob.displayHealth(screen)
 
             if pygame.time.get_ticks()-currentTime > randint(200,800) :
                 bullets.add(mob.shoot(main_char.x+32,main_char.y+32))
