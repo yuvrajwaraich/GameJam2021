@@ -12,6 +12,8 @@ class Mob():
         self.width = self.image.get_width()
         self.height = self.image.get_height()
         self.health = health
+        self.maxHealth = 20
+        self.healthBarLength = 64
         self.bulletSpeed = bulletSpd
         self.bulletDamage = bulletDmg
         self.alive = True
@@ -19,6 +21,14 @@ class Mob():
     
     def flip(self):
         self.image = pygame.image.load('flipped_mob.png')
+
+    def displayHealth(self, screen):
+        if self.health <= 0:
+            self.health = 0
+        pygame.draw.rect(screen, (255, 0, 0), (self.x, self.y-25,
+                                               self.health/(self.maxHealth/self.healthBarLength), 10))
+        pygame.draw.rect(screen, (255, 255, 255),
+                         (self.x, self.y-25, self.healthBarLength, 10), 2)
 
     def lowerHealth(self, dmg):
         self.health -= dmg

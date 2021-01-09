@@ -15,7 +15,7 @@ class Bullet():
         self.y = character.y + 32
         self.radius = 5
         self.circle = pygame.draw.circle(
-            screen, self.colour, (self.x, self.y), self.radius)
+            screen, self.colour, (int(self.x), int(self.y)), self.radius)
         self.xChange = xChange
         self.yChange = yChange
         self.dmg = dmg
