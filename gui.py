@@ -29,7 +29,8 @@ toDel = set()
 mobsToDel = set()
 
 movementSpeed = 5
-intensity = 1
+intensity = 0
+currLevel = 0
 
 
 def controls():
@@ -41,11 +42,14 @@ def resetGame():
     main_char.y = SCREEN_HEIGHT//2 - 32
     main_char.health = 20
     main_char.alive = True
-    global bullets, mobs, toDel, mobsToDel
+
+    global bullets, mobs, toDel, currLevel, intensity
     bullets = set()
     mobs = []
     toDel = set()
     mobsToDel = set()
+    currLevel = 0
+    intensity = 0
 
 
 def options():
@@ -194,8 +198,11 @@ def deadScreen():
 
 
 def newLevel():
-    up, down, right, left = False, False, False, False
+    global currLevel, intensity
+    currLevel += 1
+    intensity += currLevel * 0.5
 
+    up, down, right, left = False, False, False, False
     mob = Mob(50, SCREEN_HEIGHT//2 - 32, 2 * intensity, 5 * intensity, 20)
     mob.flip()
     mobs.append(mob)
@@ -224,7 +231,7 @@ def newLevel():
                 toDel.add(bullet)
             elif(bullet.character.charType == 'villain' and bullet.collide(main_char)):
                 if main_char.alive:
-                    main_char.lowerHealth(1)
+                    main_char.lowerHealth(mobs[0].bulletDamage)
                 toDel.add(bullet)
             else:
                 bullet.draw()
