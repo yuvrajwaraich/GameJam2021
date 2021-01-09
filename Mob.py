@@ -30,9 +30,11 @@ class Mob():
         xChange = x-self.x-32
         yChange = y-self.y-32
 
-        xChange*=(50+random()) / 50
-        yChange*=(50+random()) / 50
+        xChange*=(0.2+random()) / 0.2
+        yChange*=(0.2+random()) / 0.2
         size = xChange*xChange + yChange*yChange
         xChange /= math.sqrt(size)
         yChange /= math.sqrt(size)
         return Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed, self.bulletDamage, self)
+
+    
