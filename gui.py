@@ -16,7 +16,6 @@ ladder_pic = pygame.image.load('ladder.png')
 
 pygame.mixer.music.load('chillmusic.mp3')
 pygame.mixer.music.play(-1)
-print(pygame.mixer.music.get_volume())
 
 SCREEN_WIDTH = background.get_width()
 SCREEN_HEIGHT = background.get_height()
