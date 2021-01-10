@@ -223,7 +223,7 @@ def newLevel():
     intensity += currLevel * 0.1
 
     up, down, right, left = False, False, False, False
-    mob = Mob(50, SCREEN_HEIGHT//2 - 32, 5 * intensity, 5 * intensity, 20)
+    mob = Mob(50, SCREEN_HEIGHT//2 - 32, 5 * intensity, 5, 20)
     mob.flip()
     mobs.append(mob)
     mobs.append(Mob(SCREEN_WIDTH - 64 - 50, SCREEN_HEIGHT //
