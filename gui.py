@@ -2,6 +2,7 @@ import pygame
 from sys import exit
 from MainChar import MainChar
 from Mob import Mob
+from Boss import Boss
 from random import randint
 
 
@@ -428,7 +429,118 @@ def timeLevel():
 
 
 def bossLevel():
-    pass
+    global currLevel
+    currLevel += 1
+
+    up, down, right, left = False, False, False, False
+
+    if randint(0,1):
+        bossX = SCREEN_WIDTH//4 - 32
+    else:
+        bossX = SCREEN_WIDTH - SCREEN_WIDTH//4 - 32
+    bossY = SCREEN_HEIGHT//2 - 32
+    boss = Boss(bossX, bossY)
+
+    level = pygame.Rect(900, 0, 100, 42)
+    myfont = pygame.font.SysFont('Comic Sans MS', 20)
+    
+    running = True
+    currentTime = pygame.time.get_ticks()
+    moveTime = pygame.time.get_ticks()
+    while running:
+        screen.blit(background, (0, 0))
+        screen.blit(main_char.image, (main_char.x, main_char.y))
+        main_char.displayHealth(screen)
+
+        text = myfont.render("Level " + str(currLevel), True, WHITE)
+        fontSize = myfont.size("Level " + str(currLevel))
+        disp_coords = (level.center[0] - fontSize[0]//2, level.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
+
+        screen.blit(boss.image, (boss.x, boss.y))
+        boss.displayHealth(screen)
+
+        toDel = set()
+
+        if pygame.time.get_ticks()-currentTime > 300:
+            for bullet in boss.shoot(main_char.x+32, main_char.y+32):
+                bullets.add(bullet)
+            currentTime = pygame.time.get_ticks()
+            
+        
+        if pygame.time.get_ticks()-moveTime > 3000:
+            boss.move(main_char.x, main_char.y)
+            moveTime = pygame.time.get_ticks()
+
+        boss.changeDir(main_char.x, main_char.y)
+
+        for bullet in bullets:
+            if(bullet.x < 0 or bullet.x > SCREEN_WIDTH or bullet.y < 0 or bullet.y > SCREEN_HEIGHT):
+                toDel.add(bullet)
+            elif(bullet.character.charType == 'boss' and bullet.collide(main_char)):
+                if main_char.alive:
+                    main_char.lowerHealth(boss.bulletDamage)
+                toDel.add(bullet)
+            else:
+                bullet.draw()
+
+            if(bullet.character.charType == 'hero' and bullet.collide(boss)):
+                toDel.add(bullet)
+                boss.lowerHealth(main_char.bulletDmg)
+
+
+        for bullet in toDel:
+            bullets.remove(bullet)
+
+        if right:
+            main_char.move(movementSpeed, 0)
+        if left:
+            main_char.move(-1 * movementSpeed, 0)
+        if up:
+            main_char.move(0, -1 * movementSpeed)
+        if down:
+            main_char.move(0, movementSpeed)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key in [pygame.K_ESCAPE, pygame.K_p]:
+                    up, down, right, left = False, False, False, False
+                    if not options():
+                        return "no more play"
+                if event.key in [pygame.K_RIGHT, pygame.K_d]:
+                    right = True
+                if event.key in [pygame.K_LEFT, pygame.K_a]:
+                    left = True
+                if event.key in [pygame.K_UP, pygame.K_w]:
+                    up = True
+                if event.key in [pygame.K_DOWN, pygame.K_s]:
+                    down = True
+
+            if event.type == pygame.KEYUP:
+                if event.key in [pygame.K_RIGHT, pygame.K_d]:
+                    right = False
+                if event.key in [pygame.K_LEFT, pygame.K_a]:
+                    left = False
+                if event.key in [pygame.K_UP, pygame.K_w]:
+                    up = False
+                if event.key in [pygame.K_DOWN, pygame.K_s]:
+                    down = False
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouseX, mouseY = pygame.mouse.get_pos()
+                bullets.add(main_char.shoot(mouseX, mouseY))
+
+        clock.tick(60)
+        pygame.display.update()
+
+        if not boss.alive:
+            return 'continue'
+
+        if not main_char.alive:
+            return 'dead'
 
 
 def nextLevel():
