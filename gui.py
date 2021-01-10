@@ -106,7 +106,7 @@ def options():
 
             if event.type == pygame.KEYDOWN:
                 if event.key in [pygame.K_ESCAPE, pygame.K_p]:
-                    running = False
+                    return True
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mX, mY = pygame.mouse.get_pos()
@@ -153,7 +153,7 @@ def goNextLevel():
                 exit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key in [pygame.K_ESCAPE, pygame.K_p]:
                     up, down, right, left = False, False, False, False
                     if not options():
                         return False
@@ -274,7 +274,7 @@ def normalLevel():
                 exit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key in [pygame.K_ESCAPE, pygame.K_p]:
                     up, down, right, left = False, False, False, False
                     if not options():
                         return "no more play"
@@ -393,7 +393,7 @@ def timeLevel():
                 exit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key in [pygame.K_ESCAPE, pygame.K_p]:
                     up, down, right, left = False, False, False, False
                     if not options():
                         return "no more play"
