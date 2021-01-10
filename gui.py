@@ -11,6 +11,7 @@ pygame.font.init()
 background = pygame.image.load('room.png')
 dead_screen = pygame.image.load('dead_screen.png')
 control_pic = pygame.image.load('controls.png')
+ladder_pic = pygame.image.load('ladder.png')
 
 SCREEN_WIDTH = background.get_width()
 SCREEN_HEIGHT = background.get_height()
@@ -121,38 +122,45 @@ def options():
 
 
 def goNextLevel():
-    nextLevelDoor = pygame.Rect(400, 518, 200, 44)
-    mainMenuDoor = pygame.Rect(400, 0, 200, 44)
+    # nextLevelDoor = pygame.Rect(400, 518, 200, 44)
+    # mainMenuDoor = pygame.Rect(400, 0, 200, 44)
+    ladder_exit = pygame.Rect(SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT//2 + 200, ladder_pic.get_width(), ladder_pic.get_height())
+
     up, down, right, left = False, False, False, False
     running = True
     while running:
         screen.blit(background, (0, 0))
+        screen.blit(ladder_pic, (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT//2 + 200))
 
-        screen.fill(BLACK, nextLevelDoor)
-        text = myfont.render("Next Level", True, WHITE)
-        fontSize = myfont.size("Next Level")
-        disp_coords = (
-            nextLevelDoor.center[0] - fontSize[0]//2, nextLevelDoor.center[1] - fontSize[1]//2)
-        screen.blit(text, disp_coords)
+        # screen.fill(BLACK, nextLevelDoor)
+        # text = myfont.render("Next Level", True, WHITE)
+        # fontSize = myfont.size("Next Level")
+        # disp_coords = (
+        #     nextLevelDoor.center[0] - fontSize[0]//2, nextLevelDoor.center[1] - fontSize[1]//2)
+        # screen.blit(text, disp_coords)
 
-        screen.fill(BLACK, mainMenuDoor)
-        text = myfont.render("Main Menu", True, WHITE)
-        fontSize = myfont.size("Main Menu")
-        disp_coords = (
-            mainMenuDoor.center[0] - fontSize[0]//2, mainMenuDoor.center[1] - fontSize[1]//2)
-        screen.blit(text, disp_coords)
+        # screen.fill(BLACK, mainMenuDoor)
+        # text = myfont.render("Main Menu", True, WHITE)
+        # fontSize = myfont.size("Main Menu")
+        # disp_coords = (
+        #     mainMenuDoor.center[0] - fontSize[0]//2, mainMenuDoor.center[1] - fontSize[1]//2)
+        # screen.blit(text, disp_coords)
 
         screen.blit(main_char.image, (main_char.x, main_char.y))
         main_char.displayHealth(screen)
 
         main_char_rect = pygame.Rect(main_char.x, main_char.y, 64, 64)
 
-        if main_char_rect.colliderect(nextLevelDoor):
+        if main_char_rect.colliderect(ladder_exit):
             resetGame()
             return True
 
-        if main_char_rect.colliderect(mainMenuDoor):
-            return False
+        # if main_char_rect.colliderect(nextLevelDoor):
+        #     resetGame()
+        #     return True
+
+        # if main_char_rect.colliderect(mainMenuDoor):
+        #     return False
 
         if right:
             main_char.move(movementSpeed, 0)
@@ -215,7 +223,7 @@ def deadScreen():
         pygame.display.update()
 
 
-def newLevel():
+def normalLevel():
     global currLevel
     currLevel += 1
 
@@ -358,15 +366,20 @@ def timeLevel():
         screen.blit(main_char.image, (main_char.x, main_char.y))
         main_char.displayHealth(screen)
 
-        text = myfont.render(f"Level {currLevel}", True, WHITE)
-        fontSize = myfont.size(f"Level {currLevel}")
+        text = myfont.render("Level " + str(currLevel), True, WHITE)
+        fontSize = myfont.size("Level " + str(currLevel))
         disp_coords = (level_disp.center[0] - fontSize[0]//2, level_disp.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
 
         seconds = 15 - (pygame.time.get_ticks() - startTime)//1000
 
-        text = myfont.render(f"0:{seconds:02}", True, WHITE)
-        fontSize = myfont.size(f"0:{seconds:02}")
+        if seconds > 9:
+            textToWrite = "0:" + str(seconds)
+        else:
+            textToWrite = "0:0" + str(seconds)
+
+        text = myfont.render(textToWrite, True, WHITE)
+        fontSize = myfont.size(textToWrite)
         disp_coords = (time_disp.center[0] - fontSize[0]//2, time_disp.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
 
@@ -442,11 +455,18 @@ def timeLevel():
         if not main_char.alive:
             return 'dead'
 
+
+def bossLevel():
+    pass
+
+
 def nextLevel():
-    if (currLevel + 1)%5 == 0:
+    if (currLevel + 1)%10 == 0:
+        return bossLevel()
+    elif (currLevel + 1)%5 == 0:
         return timeLevel()
     else:
-        return newLevel()
+        return normalLevel()
 
 
 def entryScreen():
