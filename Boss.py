@@ -15,7 +15,7 @@ class Boss():
         self.maxHealth = 100
         self.healthBarLength = 64
         self.bulletSpeed = 3
-        self.bulletDamage = 4
+        self.bulletDamage = 3
         self.alive = True
         self.charType = "boss"
         self.dir = "Left"
@@ -49,10 +49,10 @@ class Boss():
         xChange /= math.sqrt(size)
         yChange /= math.sqrt(size)
         return [Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed, self.bulletDamage, self), 
+                Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed + 1, self.bulletDamage, self),
+                Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed - 1, self.bulletDamage, self),
                 Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed + 2, self.bulletDamage, self),
-                Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed - 2, self.bulletDamage, self),
-                Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed + 5, self.bulletDamage, self),
-                Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed - 5, self.bulletDamage, self),]
+                Bullet(xChange*self.bulletSpeed, yChange*self.bulletSpeed - 2, self.bulletDamage, self),]
 
 
     def move(self, x, y):

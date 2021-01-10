@@ -462,7 +462,7 @@ def bossLevel():
 
         toDel = set()
 
-        if pygame.time.get_ticks()-currentTime > 300:
+        if pygame.time.get_ticks()-currentTime > 500:
             for bullet in boss.shoot(main_char.x+32, main_char.y+32):
                 bullets.add(bullet)
             currentTime = pygame.time.get_ticks()
