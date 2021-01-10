@@ -122,29 +122,13 @@ def options():
 
 
 def goNextLevel():
-    # nextLevelDoor = pygame.Rect(400, 518, 200, 44)
-    # mainMenuDoor = pygame.Rect(400, 0, 200, 44)
-    ladder_exit = pygame.Rect(SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT//2 + 200, ladder_pic.get_width(), ladder_pic.get_height())
+    ladder_exit = pygame.Rect(SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT//2 + 100, ladder_pic.get_width(), ladder_pic.get_height())
 
     up, down, right, left = False, False, False, False
     running = True
     while running:
         screen.blit(background, (0, 0))
-        screen.blit(ladder_pic, (SCREEN_WIDTH//2 - 32, SCREEN_HEIGHT//2 + 200))
-
-        # screen.fill(BLACK, nextLevelDoor)
-        # text = myfont.render("Next Level", True, WHITE)
-        # fontSize = myfont.size("Next Level")
-        # disp_coords = (
-        #     nextLevelDoor.center[0] - fontSize[0]//2, nextLevelDoor.center[1] - fontSize[1]//2)
-        # screen.blit(text, disp_coords)
-
-        # screen.fill(BLACK, mainMenuDoor)
-        # text = myfont.render("Main Menu", True, WHITE)
-        # fontSize = myfont.size("Main Menu")
-        # disp_coords = (
-        #     mainMenuDoor.center[0] - fontSize[0]//2, mainMenuDoor.center[1] - fontSize[1]//2)
-        # screen.blit(text, disp_coords)
+        screen.blit(ladder_pic, ladder_exit.topleft)
 
         screen.blit(main_char.image, (main_char.x, main_char.y))
         main_char.displayHealth(screen)
@@ -154,13 +138,6 @@ def goNextLevel():
         if main_char_rect.colliderect(ladder_exit):
             resetGame()
             return True
-
-        # if main_char_rect.colliderect(nextLevelDoor):
-        #     resetGame()
-        #     return True
-
-        # if main_char_rect.colliderect(mainMenuDoor):
-        #     return False
 
         if right:
             main_char.move(movementSpeed, 0)
@@ -230,9 +207,6 @@ def normalLevel():
     up, down, right, left = False, False, False, False
 
     for a in range(currLevel//3 + 2):
-        # mob = Mob(50, SCREEN_HEIGHT//2 - 32, 8, 5, 20)
-        # mob.flip()
-        # mobs.append(mob)
         if a%2 == 0:
             mobX = randint(50, 300)
         else:
@@ -343,9 +317,6 @@ def timeLevel():
     up, down, right, left = False, False, False, False
 
     for a in range(currLevel//3 + 2):
-        # mob = Mob(50, SCREEN_HEIGHT//2 - 32, 8, 5, 20)
-        # mob.flip()
-        # mobs.append(mob)
         if a%2 == 0:
             mobX = randint(50, 300)
         else:
