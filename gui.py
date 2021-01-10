@@ -30,7 +30,7 @@ toDel = set()
 mobsToDel = set()
 
 movementSpeed = 5
-intensity = 1
+intensity = 0.5
 currLevel = 0
 
 
@@ -59,13 +59,17 @@ def resetGame():
     main_char.health = 20
     main_char.alive = True
 
-    global bullets, mobs, toDel, currLevel, intensity
+    global bullets, mobs, toDel
     bullets = set()
     mobs = []
     toDel = set()
     mobsToDel = set()
+    
+
+def resetDifficulty():
+    global currLevel, intensity
     currLevel = 0
-    intensity = 1
+    intensity = 0.5
 
 
 def options():
@@ -216,14 +220,19 @@ def deadScreen():
 def newLevel():
     global currLevel, intensity
     currLevel += 1
-    intensity += currLevel * 0.5
+    print(currLevel)
+    intensity += currLevel * 0.1
 
     up, down, right, left = False, False, False, False
-    mob = Mob(50, SCREEN_HEIGHT//2 - 32, 2 * intensity, 5 * intensity, 20)
+    mob = Mob(50, SCREEN_HEIGHT//2 - 32, 5 * intensity, 5 * intensity, 20)
     mob.flip()
     mobs.append(mob)
     mobs.append(Mob(SCREEN_WIDTH - 64 - 50, SCREEN_HEIGHT //
                     2 - 32, 2 * intensity, 5 * intensity, 20))
+
+    level = pygame.Rect(900, 0, 100, 42)
+    myfont = pygame.font.SysFont('Comic Sans MS', 20)
+    
 
     running = True
     currentTime = pygame.time.get_ticks()
@@ -231,6 +240,11 @@ def newLevel():
         screen.blit(background, (0, 0))
         screen.blit(main_char.image, (main_char.x, main_char.y))
         main_char.displayHealth(screen)
+
+        text = myfont.render(f"Level {currLevel}", True, WHITE)
+        fontSize = myfont.size(f"Level {currLevel}")
+        disp_coords = (level.center[0] - fontSize[0]//2, level.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
 
         for mob in mobs:
             screen.blit(mob.image, (mob.x, mob.y))
@@ -355,6 +369,7 @@ def entryScreen():
                     if not alive:
                         deadScreen()
                     resetGame()
+                    resetDifficulty()
                 elif controls_button.collidepoint((mX, mY)):
                     controls()
 
