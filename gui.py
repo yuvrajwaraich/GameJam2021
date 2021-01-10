@@ -187,16 +187,18 @@ def deadScreen():
     while running:
         screen.blit(dead_screen, (0, 0))
 
+        text = myfont.render("Press Enter", True, WHITE)
+        fontSize = myfont.size("Press Enter")
+        disp_coords = (SCREEN_WIDTH//2 - fontSize[0]//2, SCREEN_HEIGHT//2 + 150 - fontSize[1]//2)
+        screen.blit(text, disp_coords)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key in [pygame.K_ESCAPE, pygame.K_RETURN]:
                     running = False
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                running = False
 
         pygame.display.update()
 
@@ -215,7 +217,7 @@ def normalLevel():
         mobY = randint(42, SCREEN_HEIGHT - 64 - 42)
         mobs.append(Mob(mobX, mobY, 2, 4, 20))
 
-    level = pygame.Rect(900, 0, 100, 42)
+    level_disp = pygame.Rect(900, 0, 100, 42)
     myfont = pygame.font.SysFont('Comic Sans MS', 20)
     
     running = True
@@ -227,14 +229,14 @@ def normalLevel():
 
         text = myfont.render("Level " + str(currLevel), True, WHITE)
         fontSize = myfont.size("Level " + str(currLevel))
-        disp_coords = (level.center[0] - fontSize[0]//2, level.center[1] - fontSize[1]//2)
+        disp_coords = (level_disp.center[0] - fontSize[0]//2, level_disp.center[1] - fontSize[1]//2 + 20)
         screen.blit(text, disp_coords)
 
         global highestScore
         highestScore = max(highestScore, currLevel)
         highScore = myfont.render("Highest Level: " + str(highestScore), True, WHITE)
         hs_fontSize = myfont.size("Highest Level: " + str(highestScore))
-        hs_disp_coords = (level.center[0] - hs_fontSize[0]//2 - 40.5, level.center[1] - hs_fontSize[1]//2 + 30)
+        hs_disp_coords = (level_disp.center[0] - hs_fontSize[0]//2 - 42, level_disp.center[1] - hs_fontSize[1]//2 - 5)
         screen.blit(highScore, hs_disp_coords)
 
         for mob in mobs:
@@ -347,14 +349,14 @@ def timeLevel():
 
         text = myfont.render("Level " + str(currLevel), True, WHITE)
         fontSize = myfont.size("Level " + str(currLevel))
-        disp_coords = (level_disp.center[0] - fontSize[0]//2, level_disp.center[1] - fontSize[1]//2)
+        disp_coords = (level_disp.center[0] - fontSize[0]//2, level_disp.center[1] - fontSize[1]//2 + 20)
         screen.blit(text, disp_coords)
 
         global highestScore
         highestScore = max(highestScore, currLevel)
         highScore = myfont.render("Highest Level: " + str(highestScore), True, WHITE)
         hs_fontSize = myfont.size("Highest Level: " + str(highestScore))
-        hs_disp_coords = (level_disp.center[0] - hs_fontSize[0]//2 - 40.5, level_disp.center[1] - hs_fontSize[1]//2 + 30)
+        hs_disp_coords = (level_disp.center[0] - hs_fontSize[0]//2 - 42, level_disp.center[1] - hs_fontSize[1]//2 - 5)
         screen.blit(highScore, hs_disp_coords)
 
         seconds = 15 - (pygame.time.get_ticks() - startTime)//1000
@@ -455,7 +457,7 @@ def bossLevel():
     bossY = SCREEN_HEIGHT//2 - 32
     boss = Boss(bossX, bossY)
 
-    level = pygame.Rect(900, 0, 100, 42)
+    level_disp = pygame.Rect(900, 0, 100, 42)
     myfont = pygame.font.SysFont('Comic Sans MS', 20)
     
     running = True
@@ -468,14 +470,14 @@ def bossLevel():
 
         text = myfont.render("Level " + str(currLevel), True, WHITE)
         fontSize = myfont.size("Level " + str(currLevel))
-        disp_coords = (level.center[0] - fontSize[0]//2, level.center[1] - fontSize[1]//2)
+        disp_coords = (level_disp.center[0] - fontSize[0]//2, level_disp.center[1] - fontSize[1]//2 + 20)
         screen.blit(text, disp_coords)
 
         global highestScore
         highestScore = max(highestScore, currLevel)
         highScore = myfont.render("Highest Level: " + str(highestScore), True, WHITE)
         hs_fontSize = myfont.size("Highest Level: " + str(highestScore))
-        hs_disp_coords = (level.center[0] - hs_fontSize[0]//2 - 40.5, level.center[1] - hs_fontSize[1]//2 + 30)
+        hs_disp_coords = (level_disp.center[0] - hs_fontSize[0]//2 - 42, level_disp.center[1] - hs_fontSize[1]//2 - 5)
         screen.blit(highScore, hs_disp_coords)
 
         screen.blit(boss.image, (boss.x, boss.y))
