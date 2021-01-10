@@ -234,8 +234,8 @@ def normalLevel():
         screen.blit(main_char.image, (main_char.x, main_char.y))
         main_char.displayHealth(screen)
 
-        text = myfont.render("Level " + str(currLevel), True, WHITE)
-        fontSize = myfont.size("Level " + str(currLevel))
+        text = myfont.render("Level: " + str(currLevel), True, WHITE)
+        fontSize = myfont.size("Level: " + str(currLevel))
         disp_coords = (level_disp.center[0] - fontSize[0] //
                        2, level_disp.center[1] - fontSize[1]//2 + 20)
         screen.blit(text, disp_coords)
@@ -362,8 +362,8 @@ def timeLevel():
         screen.blit(main_char.image, (main_char.x, main_char.y))
         main_char.displayHealth(screen)
 
-        text = myfont.render("Level " + str(currLevel), True, WHITE)
-        fontSize = myfont.size("Level " + str(currLevel))
+        text = myfont.render("Level: " + str(currLevel), True, WHITE)
+        fontSize = myfont.size("Level: " + str(currLevel))
         disp_coords = (level_disp.center[0] - fontSize[0] //
                        2, level_disp.center[1] - fontSize[1]//2 + 20)
         screen.blit(text, disp_coords)
@@ -486,8 +486,8 @@ def bossLevel():
         screen.blit(main_char.image, (main_char.x, main_char.y))
         main_char.displayHealth(screen)
 
-        text = myfont.render("Level " + str(currLevel), True, WHITE)
-        fontSize = myfont.size("Level " + str(currLevel))
+        text = myfont.render("Level: " + str(currLevel), True, WHITE)
+        fontSize = myfont.size("Level: " + str(currLevel))
         disp_coords = (level_disp.center[0] - fontSize[0] //
                        2, level_disp.center[1] - fontSize[1]//2 + 20)
         screen.blit(text, disp_coords)
