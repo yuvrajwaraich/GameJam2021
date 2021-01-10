@@ -10,6 +10,7 @@ pygame.font.init()
 
 background = pygame.image.load('room.png')
 dead_screen = pygame.image.load('dead_screen.png')
+control_pic = pygame.image.load('controls.png')
 
 SCREEN_WIDTH = background.get_width()
 SCREEN_HEIGHT = background.get_height()
@@ -34,7 +35,22 @@ currLevel = 0
 
 
 def controls():
-    pass
+    running = True
+    while running:
+        screen.blit(control_pic, (0, 0))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                running = False
+
+        pygame.display.update()
 
 
 def resetGame():
