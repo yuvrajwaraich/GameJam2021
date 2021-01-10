@@ -220,7 +220,6 @@ def deadScreen():
 def newLevel():
     global currLevel, intensity
     currLevel += 1
-    print(currLevel)
     intensity += currLevel * 0.1
 
     up, down, right, left = False, False, False, False
@@ -228,7 +227,7 @@ def newLevel():
     mob.flip()
     mobs.append(mob)
     mobs.append(Mob(SCREEN_WIDTH - 64 - 50, SCREEN_HEIGHT //
-                    2 - 32, 2 * intensity, 5 * intensity, 20))
+                    2 - 32, 5 * intensity, 5 * intensity, 20))
 
     level = pygame.Rect(900, 0, 100, 42)
     myfont = pygame.font.SysFont('Comic Sans MS', 20)
