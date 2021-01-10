@@ -29,7 +29,7 @@ toDel = set()
 mobsToDel = set()
 
 movementSpeed = 5
-intensity = 0
+intensity = 1
 currLevel = 0
 
 
@@ -49,7 +49,7 @@ def resetGame():
     toDel = set()
     mobsToDel = set()
     currLevel = 0
-    intensity = 0
+    intensity = 1
 
 
 def options():
