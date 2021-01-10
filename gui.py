@@ -30,7 +30,6 @@ toDel = set()
 mobsToDel = set()
 
 movementSpeed = 5
-intensity = 0.5
 currLevel = 0
 
 
@@ -66,10 +65,9 @@ def resetGame():
     mobsToDel = set()
     
 
-def resetDifficulty():
-    global currLevel, intensity
+def resetLevel():
+    global currLevel
     currLevel = 0
-    intensity = 0.5
 
 
 def options():
@@ -218,21 +216,25 @@ def deadScreen():
 
 
 def newLevel():
-    global currLevel, intensity
+    global currLevel
     currLevel += 1
-    intensity += currLevel * 0.1
 
     up, down, right, left = False, False, False, False
-    mob = Mob(50, SCREEN_HEIGHT//2 - 32, 5 * intensity, 5, 20)
-    mob.flip()
-    mobs.append(mob)
-    mobs.append(Mob(SCREEN_WIDTH - 64 - 50, SCREEN_HEIGHT //
-                    2 - 32, 5 * intensity, 5 * intensity, 20))
+
+    for a in range(currLevel//3 + 2):
+        # mob = Mob(50, SCREEN_HEIGHT//2 - 32, 8, 5, 20)
+        # mob.flip()
+        # mobs.append(mob)
+        if a%2 == 0:
+            mobX = randint(50, 300)
+        else:
+            mobX = randint(600, SCREEN_WIDTH - 64 - 50)
+        mobY = randint(42, SCREEN_HEIGHT - 64 - 42)
+        mobs.append(Mob(mobX, mobY, 2, 4, 20))
 
     level = pygame.Rect(900, 0, 100, 42)
     myfont = pygame.font.SysFont('Comic Sans MS', 20)
     
-
     running = True
     currentTime = pygame.time.get_ticks()
     while running:
@@ -368,7 +370,7 @@ def entryScreen():
                     if not alive:
                         deadScreen()
                     resetGame()
-                    resetDifficulty()
+                    resetLevel()
                 elif controls_button.collidepoint((mX, mY)):
                     controls()
 
