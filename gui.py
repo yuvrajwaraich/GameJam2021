@@ -86,7 +86,7 @@ def options():
                 exit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key in [pygame.K_ESCAPE, pygame.K_p]:
                     running = False
 
             if event.type == pygame.MOUSEBUTTONDOWN:
