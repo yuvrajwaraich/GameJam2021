@@ -328,6 +328,126 @@ def newLevel():
         if not main_char.alive:
             return 'dead'
 
+def timeLevel():
+    global currLevel
+    currLevel += 1
+
+    up, down, right, left = False, False, False, False
+
+    for a in range(currLevel//3 + 2):
+        # mob = Mob(50, SCREEN_HEIGHT//2 - 32, 8, 5, 20)
+        # mob.flip()
+        # mobs.append(mob)
+        if a%2 == 0:
+            mobX = randint(50, 300)
+        else:
+            mobX = randint(600, SCREEN_WIDTH - 64 - 50)
+        mobY = randint(42, SCREEN_HEIGHT - 64 - 42)
+        mobs.append(Mob(mobX, mobY, 2, 4, 20))
+
+    level_disp = pygame.Rect(900, 0, 100, 42)
+    myfont = pygame.font.SysFont('Comic Sans MS', 20)
+    time_disp = pygame.Rect(750, 0, 100, 42)
+    
+    running = True
+    currentTime = pygame.time.get_ticks()
+    startTime = pygame.time.get_ticks()
+    while running:
+        
+        screen.blit(background, (0, 0))
+        screen.blit(main_char.image, (main_char.x, main_char.y))
+        main_char.displayHealth(screen)
+
+        text = myfont.render(f"Level {currLevel}", True, WHITE)
+        fontSize = myfont.size(f"Level {currLevel}")
+        disp_coords = (level_disp.center[0] - fontSize[0]//2, level_disp.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
+
+        seconds = 15 - (pygame.time.get_ticks() - startTime)//1000
+
+        text = myfont.render(f"0:{seconds:02}", True, WHITE)
+        fontSize = myfont.size(f"0:{seconds:02}")
+        disp_coords = (time_disp.center[0] - fontSize[0]//2, time_disp.center[1] - fontSize[1]//2)
+        screen.blit(text, disp_coords)
+
+        for mob in mobs:
+            screen.blit(mob.image, (mob.x, mob.y))
+            mob.displayHealth(screen)
+            if pygame.time.get_ticks()-currentTime > randint(200, 800):
+                bullets.add(mob.shoot(main_char.x+32, main_char.y+32))
+                currentTime = pygame.time.get_ticks()
+            if pygame.time.get_ticks()-currentTime > randint(50, 200):
+                mob.move(main_char.x+32, main_char.y+32)
+
+        toDel, mobsToDel = set(), set()
+        for bullet in bullets:
+            if(bullet.x < 0 or bullet.x > SCREEN_WIDTH or bullet.y < 0 or bullet.y > SCREEN_HEIGHT):
+                toDel.add(bullet)
+            elif(bullet.character.charType == 'villain' and bullet.collide(main_char)):
+                if main_char.alive:
+                    main_char.lowerHealth(mobs[0].bulletDamage)
+                toDel.add(bullet)
+            else:
+                bullet.draw()
+
+        for bullet in toDel:
+            bullets.remove(bullet)
+        for mob in mobsToDel:
+            mobs.remove(mob)
+
+        if right:
+            main_char.move(movementSpeed, 0)
+        if left:
+            main_char.move(-1 * movementSpeed, 0)
+        if up:
+            main_char.move(0, -1 * movementSpeed)
+        if down:
+            main_char.move(0, movementSpeed)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    up, down, right, left = False, False, False, False
+                    if not options():
+                        return "no more play"
+                if event.key in [pygame.K_RIGHT, pygame.K_d]:
+                    right = True
+                if event.key in [pygame.K_LEFT, pygame.K_a]:
+                    left = True
+                if event.key in [pygame.K_UP, pygame.K_w]:
+                    up = True
+                if event.key in [pygame.K_DOWN, pygame.K_s]:
+                    down = True
+
+            if event.type == pygame.KEYUP:
+                if event.key in [pygame.K_RIGHT, pygame.K_d]:
+                    right = False
+                if event.key in [pygame.K_LEFT, pygame.K_a]:
+                    left = False
+                if event.key in [pygame.K_UP, pygame.K_w]:
+                    up = False
+                if event.key in [pygame.K_DOWN, pygame.K_s]:
+                    down = False
+
+        clock.tick(60)
+        pygame.display.update()
+
+        if seconds == 0:
+            return 'continue'
+
+
+        if not main_char.alive:
+            return 'dead'
+
+def nextLevel():
+    if (currLevel + 1)%5 == 0:
+        return timeLevel()
+    else:
+        return newLevel()
+
 
 def entryScreen():
     play_button = pygame.Rect(250, 106, 500, 150)
@@ -358,7 +478,7 @@ def entryScreen():
                     alive = True
                     continueGame = True
                     while alive and continueGame:
-                        result = newLevel()
+                        result = nextLevel()
                         if result == 'continue':
                             if not goNextLevel():
                                 continueGame = False
