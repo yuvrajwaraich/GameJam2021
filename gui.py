@@ -33,7 +33,7 @@ mobsToDel = set()
 
 movementSpeed = 5
 currLevel = 0
-
+highestScore = 0
 
 def controls():
     running = True
@@ -230,6 +230,13 @@ def normalLevel():
         disp_coords = (level.center[0] - fontSize[0]//2, level.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
 
+        global highestScore
+        highestScore = max(highestScore, currLevel)
+        highScore = myfont.render("Highest Level: " + str(highestScore), True, WHITE)
+        hs_fontSize = myfont.size("Highest Level: " + str(highestScore))
+        hs_disp_coords = (level.center[0] - hs_fontSize[0]//2 - 40.5, level.center[1] - hs_fontSize[1]//2 + 30)
+        screen.blit(highScore, hs_disp_coords)
+
         for mob in mobs:
             screen.blit(mob.image, (mob.x, mob.y))
             mob.displayHealth(screen)
@@ -342,6 +349,13 @@ def timeLevel():
         fontSize = myfont.size("Level " + str(currLevel))
         disp_coords = (level_disp.center[0] - fontSize[0]//2, level_disp.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
+
+        global highestScore
+        highestScore = max(highestScore, currLevel)
+        highScore = myfont.render("Highest Level: " + str(highestScore), True, WHITE)
+        hs_fontSize = myfont.size("Highest Level: " + str(highestScore))
+        hs_disp_coords = (level_disp.center[0] - hs_fontSize[0]//2 - 40.5, level_disp.center[1] - hs_fontSize[1]//2 + 30)
+        screen.blit(highScore, hs_disp_coords)
 
         seconds = 15 - (pygame.time.get_ticks() - startTime)//1000
 
@@ -456,6 +470,13 @@ def bossLevel():
         fontSize = myfont.size("Level " + str(currLevel))
         disp_coords = (level.center[0] - fontSize[0]//2, level.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
+
+        global highestScore
+        highestScore = max(highestScore, currLevel)
+        highScore = myfont.render("Highest Level: " + str(highestScore), True, WHITE)
+        hs_fontSize = myfont.size("Highest Level: " + str(highestScore))
+        hs_disp_coords = (level.center[0] - hs_fontSize[0]//2 - 40.5, level.center[1] - hs_fontSize[1]//2 + 30)
+        screen.blit(highScore, hs_disp_coords)
 
         screen.blit(boss.image, (boss.x, boss.y))
         boss.displayHealth(screen)
