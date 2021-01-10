@@ -62,7 +62,7 @@ class Mob():
         self.flip()
         xChange *= (0.2+random()) / 0.2
         yChange *= (0.2+random()) / 0.2
-        size = xChange*xChange + yChange*yChange
+        size = (xChange*xChange + yChange*yChange)+0.00000001
         xChange /= math.sqrt(size)
         yChange /= math.sqrt(size)
         self.x += xChange
