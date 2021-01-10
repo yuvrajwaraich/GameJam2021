@@ -351,6 +351,7 @@ def timeLevel():
 
     level_disp = pygame.Rect(900, 0, 100, 42)
     myfont = pygame.font.SysFont('Comic Sans MS', 20)
+    timeFont = pygame.font.SysFont('Comic Sans MS', 35)
     time_disp = pygame.Rect(750, 0, 100, 42)
 
     running = True
@@ -384,10 +385,11 @@ def timeLevel():
         else:
             textToWrite = "0:0" + str(seconds)
 
-        text = myfont.render(textToWrite, True, WHITE)
-        fontSize = myfont.size(textToWrite)
+    
+        text = timeFont.render(textToWrite, True, WHITE)
+        fontSize = timeFont.size(textToWrite)
         disp_coords = (
-            time_disp.center[0] - fontSize[0]//2, time_disp.center[1] - fontSize[1]//2)
+            SCREEN_WIDTH//2 - fontSize[0]//2, time_disp.center[1] - fontSize[1]//2)
         screen.blit(text, disp_coords)
 
         for mob in mobs:
